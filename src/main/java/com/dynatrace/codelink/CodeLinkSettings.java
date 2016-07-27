@@ -28,6 +28,9 @@
 
 package com.dynatrace.codelink;
 
+import org.apache.http.annotation.ThreadSafe;
+
+@ThreadSafe
 public interface CodeLinkSettings {
     boolean isEnabled();
 
