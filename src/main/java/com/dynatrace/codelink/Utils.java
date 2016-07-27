@@ -32,6 +32,7 @@ import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContextBuilder;
+import org.apache.http.ssl.TrustStrategy;
 
 import javax.net.ssl.SSLContext;
 import javax.xml.bind.JAXBContext;
@@ -39,6 +40,8 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
 
 public class Utils {
     /**
@@ -52,7 +55,12 @@ public class Utils {
             HttpClientBuilder builder = HttpClients.custom();
             // trust all certs
             builder.setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE);
-            SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, (chain, authType) -> true).build();
+            SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy() {
+                @Override
+                public boolean isTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                    return true;
+                }
+            }).build();
             builder.setSSLContext(sslContext);
 
             return builder;
