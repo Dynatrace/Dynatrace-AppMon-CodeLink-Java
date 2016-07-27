@@ -38,7 +38,7 @@ import java.util.logging.Logger;
  * A primary entry point used in implementing support for CodeLink in your IDE
  */
 public class CodeLinkClient {
-    public static final Logger LOGGER = Logger.getLogger("#" + CodeLinkClient.class.getName());
+    public static final Logger LOGGER = Logger.getLogger(CodeLinkClient.class.getName());
     public static final int DEFAULT_INTERVAL = 2;
     public static final TimeUnit DEFAULT_UNIT = TimeUnit.SECONDS;
 

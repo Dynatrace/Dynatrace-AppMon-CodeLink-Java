@@ -83,3 +83,10 @@ Incoming lookup requests will call a *jumpToClass* method in *[ProjectDescriptor
 
 One thing to keep in mind is the format of *className* inside *[CodeLinkLookupResponse](src/main/java/com/dynatrace/codelink/CodeLinkLookupResponse.java)*. It follows the *OuterClass$InnerClass$InnerClass* format.
 Typically you will have to split the string on *$* in order to search for classes.
+
+The *getId()* method in (src/main/java/com/dynatrace/codelink/IDEDescriptor.java#L54) returns the ID associated with an IDE.
+
+
+The ID which the function returns needs to be registered on the Dynatrace Client side. To do that, you have to contact Dynatrace directly.
+
+You can use ECLIPSE Id: *0* *[IDEDescriptor.ECLIPSE_ID](src/main/java/com/dynatrace/codelink/IDEDescriptor.java)* until the IDE you are writing the implementation for is registered.
