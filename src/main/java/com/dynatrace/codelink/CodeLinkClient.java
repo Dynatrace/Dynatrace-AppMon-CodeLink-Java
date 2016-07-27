@@ -55,9 +55,9 @@ public class CodeLinkClient {
      * Starts a polling thread on a given interval. Default and recommended values are:
      * <dl>
      * <dt>For {@code interval}</dt>
-     * <dd>{@link #DEFAULT_INTERVAL} - {@value DEFAULT_INTERVAL}</dd>
+     * <dd>{@link #DEFAULT_INTERVAL} - {@value #DEFAULT_INTERVAL}</dd>
      * <dt>For {@code unit}</dt>
-     * <dd>{@link #DEFAULT_UNIT} - {@value DEFAULT_UNIT}</dd>
+     * <dd>{@link #DEFAULT_UNIT} - seconds</dd>
      * </dl>
      *
      * @param interval delay after a thread execution after which another thread is spawned
