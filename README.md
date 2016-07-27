@@ -31,6 +31,7 @@ The wrapper comes with Apache's HttpComponents shaded inside, thus you don't hav
 - Download the latest artifact from [Releases](/releases)
 - Put the artifact under */repo/com/dynatrace/codelink*
 - Add the following code to the *&lt;repositories&gt;* section:
+
 ```xml
 <repository>
     <id>local-repo</id>
@@ -44,7 +45,9 @@ The wrapper comes with Apache's HttpComponents shaded inside, thus you don't hav
     <url>file://${project.basedir}/repo</url>
 </repository>
 ```
+
 - Add the following code to the *&lt;dependencies&gt;* section:
+
 ```xml
 <dependency>
     <groupId>com.dynatrace.codelink</groupId>
@@ -57,6 +60,7 @@ The wrapper comes with Apache's HttpComponents shaded inside, thus you don't hav
 - Download the latest artifact from [Releases](/releases)
 - Put the artifact under */lib*
 - Put the following code in your *dependencies* block:
+
 ```groovy
 compile fileTree(dir: 'lib', include: '*.jar')
 ```
@@ -69,6 +73,7 @@ CodeLink-Wrapper exposes three interfaces which have to be implemented:
 - [ProjectDescriptor](src/main/java/com/dynatrace/codelink/ProjectDescriptor.java)
 
 The typical use-case looks as following:
+
 ```java
 CodeLinkClient client = new CodeLinkClient(new YourCodeLinkSettings(), new YourIDEDescriptor(), new YourProjectDescriptor());
 client.startPolling(CodeLinkClient.DEFAULT_INTERVAL, CodeLinkClient.DEFAULT_UNIT);
