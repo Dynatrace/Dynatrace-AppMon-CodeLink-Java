@@ -68,7 +68,7 @@ compile fileTree(dir: 'lib', include: '*.jar')
 ### Integrating an IDE with CodeLink using this library
 
 CodeLink-Wrapper exposes three interfaces which have to be implemented:
-- [CodeLinkSettings](src/main/java/com/dynatrace/codelink/CodeLinkSettings.java)
+- [CodeLinkSettings](src/main/java/com/dynatrace/codelink/CodeLinkSettings.java) - the basic implementation is available under [BasicCodeLinkSettings](src/main/java/com/dynatrace/codelink/BasicCodeLinkSettings.java)
 - [IDEDescriptor](src/main/java/com/dynatrace/codelink/IDEDescriptor.java)
 - [ProjectDescriptor](src/main/java/com/dynatrace/codelink/ProjectDescriptor.java)
 
