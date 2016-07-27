@@ -81,5 +81,5 @@ client.startPolling(CodeLinkClient.DEFAULT_INTERVAL, CodeLinkClient.DEFAULT_UNIT
 
 Incoming lookup requests will call a *jumpToClass* method in *[ProjectDescriptor](src/main/java/com/dynatrace/codelink/ProjectDescriptor.java)*, that's where one has to implement the jumping logic.
 
-One thing to keep in mind is the format of *className* inside [*CodeLinkLookupResponse*](src/main/java/com/dynatrace/codelink/CodeLinkLookupResponse.java). It follows the *OuterClass$InnerClass$InnerClass* format.
+One thing to keep in mind is the format of *className* inside *[CodeLinkLookupResponse](src/main/java/com/dynatrace/codelink/CodeLinkLookupResponse.java)*. It follows the *OuterClass$InnerClass$InnerClass* format.
 Typically you will have to split the string on *$* in order to search for classes.
