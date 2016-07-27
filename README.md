@@ -13,7 +13,7 @@ This library provides an easy to use Java implementation of Dynatrace Client's C
 
 > The ability to navigate from Dynatrace AppMon Client to code in your favorite IDE with Dynatrace plugin. E.g. this is available in the PurePaths view, from the PurePath Tree section: after right-clicking on a message call, selecting Source Lookup / Open in IDE. 
 
-![Source lookup](/img/source_lookup.png)
+![Source lookup](img/source_lookup.png)
 
 ## <a name="ides"></a>IDEs currently supporting CodeLink
 
