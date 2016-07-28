@@ -1,4 +1,4 @@
-# Dynatrace CodeLink Wrapper
+# Dynatrace CodeLink Wrapper [![Build Status](https://travis-ci.org/Dynatrace/Dynatrace-CodeLink-Java.svg?branch=master)](https://travis-ci.org/Dynatrace/Dynatrace-CodeLink-Java)
 
 This library provides an easy to use Java implementation of Dynatrace Client's CodeLink feature.
 
