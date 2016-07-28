@@ -45,6 +45,7 @@ import javax.xml.xpath.XPathFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 /**
  * A wrapper for making requests to Dynatrace client polling for CodeLink (lookup) requests.
@@ -106,8 +107,8 @@ public class CodeLinkEndpoint {
             nvps.add(new BasicNameValuePair("minor", this.ide.getPluginVersion().minor));
             nvps.add(new BasicNameValuePair("revision", this.ide.getPluginVersion().revision));
             nvps.add(new BasicNameValuePair("sessionid", String.valueOf(sessionId)));
-            nvps.add(new BasicNameValuePair("activeproject", this.project.getProjectName()));
-            nvps.add(new BasicNameValuePair("projectpath", this.project.getProjectPath()));
+            nvps.add(new BasicNameValuePair("activeproject", this.project.getProjectName() == null ? "" : this.project.getProjectName()));
+            nvps.add(new BasicNameValuePair("projectpath", this.project.getProjectPath() == null ? "" : this.project.getProjectPath()));
 
             StringBuilder builder = CodeLinkEndpoint.buildURL(this.clSettings).append("codelink/connect");
             HttpPost post = new HttpPost(builder.toString());
