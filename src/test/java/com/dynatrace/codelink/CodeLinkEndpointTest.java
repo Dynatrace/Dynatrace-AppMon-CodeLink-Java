@@ -112,8 +112,8 @@ public class CodeLinkEndpointTest {
     public void connectGivenValidResponseWithLookupRequest() throws Exception {
         stubFor(post(urlPathEqualTo("/rest/management/codelink/connect")).willReturn(aResponse().withBody("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><codeLinkLookup className=\"com.dynatrace.Clazz\" methodName=\"testAll\" sessionId=\"1468832125420\" timedOut=\"false\" versionMatched=\"true\"><attributes/></codeLinkLookup>")));
         CodeLinkLookupResponse response = this.endpoint.connect(-1);
-        assertTrue(response.className.equals("com.dynatrace.Clazz"));
-        assertTrue(response.methodName.equals("testAll"));
+        assertTrue(response.getClassName().equals("com.dynatrace.Clazz"));
+        assertTrue(response.getMethodName().equals("testAll"));
         assertTrue(response.sessionId == 1468832125420L);
         assertTrue(!response.timedOut);
         assertTrue(response.versionMatched);

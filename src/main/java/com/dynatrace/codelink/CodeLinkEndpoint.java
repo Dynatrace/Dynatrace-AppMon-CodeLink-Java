@@ -45,7 +45,6 @@ import javax.xml.xpath.XPathFactory;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 
 /**
  * A wrapper for making requests to Dynatrace client polling for CodeLink (lookup) requests.

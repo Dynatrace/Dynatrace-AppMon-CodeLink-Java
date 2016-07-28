@@ -39,25 +39,42 @@ import javax.xml.bind.annotation.*;
  *         Date: 12.10.2009
  */
 @XmlRootElement(name = "codeLinkLookup")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class CodeLinkLookupResponse {
 
     @XmlAttribute(name = "versionMatched")
-    public boolean versionMatched;
-
+    boolean versionMatched;
     @XmlAttribute(name = "timedOut")
-    public boolean timedOut;
-
-    @XmlAttribute(name = "className")
-    public String className;
-
-    @XmlAttribute(name = "methodName")
-    public String methodName;
-
+    boolean timedOut;
     @XmlAttribute(name = "sessionId")
-    public long sessionId;
-
+    long sessionId;
     @XmlElementWrapper(name = "attributes")
     @XmlElements(@XmlElement(name = "attribute", type = String.class))
-    public String[] arguments;
+    private String[] arguments;
+    @XmlAttribute(name = "className")
+    private String className;
+    @XmlAttribute(name = "methodName")
+    private String methodName;
 
+    public CodeLinkLookupResponse(String className, String methodName, String[] arguments) {
+        this.className = className;
+        this.methodName = methodName;
+        this.arguments = arguments;
+    }
+
+    //Required by JAXB
+    public CodeLinkLookupResponse() {
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public String getMethodName() {
+        return methodName;
+    }
+
+    public String[] getArguments() {
+        return arguments;
+    }
 }
