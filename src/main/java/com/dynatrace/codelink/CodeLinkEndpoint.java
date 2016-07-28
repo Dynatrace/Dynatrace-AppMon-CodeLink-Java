@@ -51,7 +51,7 @@ import java.util.List;
  * {@link #connect(long) connect} method should be called frequently to minimize delays.
  */
 public class CodeLinkEndpoint {
-    public static final ClientVersion DTCLIENT_VERSION_WITH_IDEA_SUPPORT = new ClientVersion(8, 0, 0, 0);
+    public static final ClientVersion DTCLIENT_VERSION_WITH_IDEA_SUPPORT = new ClientVersion(6, 5, 0, 1231);
 
 
     private final ProjectDescriptor project;
