@@ -91,8 +91,13 @@ public class CodeLinkEndpoint {
             if (this.version == null) {
                 this.version = this.getClientVersion();
             }
+
+            int ideId = this.ide.getId();
             //0 stands for eclipse IDE, older versions of dynatrace have no support for IDEA, therefore we disguise under eclipse
-            int ideId = (this.version.compareTo(DTCLIENT_VERSION_WITH_IDEA_SUPPORT) < 0 && this.ide.getId() == IDEDescriptor.IDEA_ID) ? IDEDescriptor.ECLIPSE_ID : this.ide.getId();
+            if (this.version.compareTo(DTCLIENT_VERSION_WITH_IDEA_SUPPORT) < 0
+                    && this.ide.getId() == IDEDescriptor.IDEA_ID) {
+                ideId = IDEDescriptor.ECLIPSE_ID;
+            }
 
             List<NameValuePair> nvps = new ArrayList<>();
             nvps.add(new BasicNameValuePair("ideid", String.valueOf(ideId)));
@@ -110,12 +115,10 @@ public class CodeLinkEndpoint {
             post.setHeader("Content-Type", "application/x-www-form-urlencoded");
             post.setEntity(new UrlEncodedFormEntity(nvps));
             try (CloseableHttpResponse response = this.client.execute(post)) {
-                if (response.getStatusLine().getStatusCode() < 200 || response.getStatusLine().getStatusCode() >= 300) {
+                if (response.getStatusLine().getStatusCode() < 200
+                        || response.getStatusLine().getStatusCode() >= 300) {
                     throw new CodeLinkConnectionException(response.getStatusLine().getReasonPhrase());
                 }
-//                String content = EntityUtils.toString(response.getEntity());
-//                System.out.println(content);
-//                InputStream stream = new ByteArrayInputStream(content.getBytes(StandardCharsets.UTF_8));
                 return Utils.inputStreamToObject(response.getEntity().getContent(), CodeLinkLookupResponse.class);
             } catch (JAXBException e) {
                 throw new CodeLinkResponseException(e);
@@ -143,7 +146,8 @@ public class CodeLinkEndpoint {
             post.setHeader("Content-Type", "application/x-www-form-urlencoded");
             post.setEntity(new UrlEncodedFormEntity(nvps));
             try (CloseableHttpResponse response = this.client.execute(post)) {
-                if (response.getStatusLine().getStatusCode() < 200 || response.getStatusLine().getStatusCode() >= 300) {
+                if (response.getStatusLine().getStatusCode() < 200
+                        || response.getStatusLine().getStatusCode() >= 300) {
                     throw new CodeLinkConnectionException(response.getStatusLine().getReasonPhrase());
                 }
             }
@@ -156,7 +160,8 @@ public class CodeLinkEndpoint {
         StringBuilder builder = CodeLinkEndpoint.buildURL(this.clSettings).append("version");
         HttpGet get = new HttpGet(builder.toString());
         try (CloseableHttpResponse response = this.client.execute(get)) {
-            if (response.getStatusLine().getStatusCode() < 200 || response.getStatusLine().getStatusCode() >= 300) {
+            if (response.getStatusLine().getStatusCode() < 200
+                    || response.getStatusLine().getStatusCode() >= 300) {
                 throw new CodeLinkConnectionException(response.getStatusLine().getReasonPhrase());
             }
             XPath xPath = XPathFactory.newInstance().newXPath();
