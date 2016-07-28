@@ -31,6 +31,7 @@ package com.dynatrace.codelink;
 import com.dynatrace.codelink.exceptions.CodeLinkConnectionException;
 
 import java.net.UnknownHostException;
+import java.util.Arrays;
 import java.util.logging.Level;
 
 class PollingWorker implements Runnable {
@@ -63,7 +64,7 @@ class PollingWorker implements Runnable {
         }
 
         try {
-            CodeLinkLookupResponse response = this.endpoint.connect(this.sessionId);
+            final CodeLinkLookupResponse response = this.endpoint.connect(this.sessionId);
             this.sessionId = response.sessionId;
             //if the response times out it means there's no codelink request
             if (response.timedOut) {
@@ -73,12 +74,12 @@ class PollingWorker implements Runnable {
             //try to jump to class
             this.project.jumpToClass(response, new Callback<Boolean>() {
                 @Override
-                public void call(Boolean b) {
-                    if (!b) {
-                        PollingWorker.this.ide.log(Level.WARNING, "CodeLink Error", "Method not found", "A method with a given signature could not be found.", false);
+                public void call(Boolean success) {
+                    if (!success) {
+                        PollingWorker.this.ide.log(Level.WARNING, "CodeLink Error", "Unsuccessful lookup", String.format("Method: %s(%s) in class %s could not be found", response.getMethodName(), Arrays.toString(response.getArguments()), response.getClassName()), false);
                     }
                     try {
-                        PollingWorker.this.endpoint.respond(b ? CodeLinkEndpoint.ResponseStatus.FOUND : CodeLinkEndpoint.ResponseStatus.NOT_FOUND, sid);
+                        PollingWorker.this.endpoint.respond(success ? CodeLinkEndpoint.ResponseStatus.FOUND : CodeLinkEndpoint.ResponseStatus.NOT_FOUND, sid);
                     } catch (CodeLinkConnectionException e) {
                         PollingWorker.this.ide.log(Level.WARNING, "CodeLink Error", "Could not send response", "Error occured while sending a response to Dynatrace Client", false);
                         CodeLinkClient.LOGGER.warning("Could not send response to CodeLink: " + e.getMessage());
@@ -92,7 +93,7 @@ class PollingWorker implements Runnable {
             //if the host can't be found disable codelink to not disturb user with future notifications
             if (e.getCause() instanceof UnknownHostException) {
                 this.clSettings.setEnabled(false);
-                this.ide.log(Level.WARNING, "CodeLink Error", "Could not connect to client.", "CodeLink has been disabled<br>Check your configuration", true);
+                this.ide.log(Level.WARNING, "CodeLink Error", "Could not connect to client.", "CodeLink has been disabled.\nCheck your configuration", true);
             } else {
                 this.ide.log(Level.WARNING, "CodeLink Error", "Check your configuration", "Failed connecting to Dynatrace AppMon Client to poll for CodeLink jump requests.", false);
                 this.suppress = 5;

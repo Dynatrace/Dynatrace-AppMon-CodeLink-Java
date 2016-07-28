@@ -94,8 +94,8 @@ public class CodeLinkEndpoint {
 
             int ideId = this.ide.getId();
             //0 stands for eclipse IDE, older versions of dynatrace have no support for IDEA, therefore we disguise under eclipse
-            if (this.version.compareTo(DTCLIENT_VERSION_WITH_IDEA_SUPPORT) < 0
-                    && this.ide.getId() == IDEDescriptor.IDEA_ID) {
+            if (this.ide.getId() == IDEDescriptor.IDEA_ID &&
+                    this.version.compareTo(DTCLIENT_VERSION_WITH_IDEA_SUPPORT) < 0) {
                 ideId = IDEDescriptor.ECLIPSE_ID;
             }
 
