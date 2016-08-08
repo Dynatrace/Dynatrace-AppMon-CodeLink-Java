@@ -19,7 +19,7 @@ This library provides an easy to use Java implementation of Dynatrace Client's C
 
 - [Eclipse](https://eclipse.org) with [Eclipse Integration Plugin](https://github.com/Dynatrace/Dynatrace-Eclipse-Integration-Plugin)
 - [IntelliJ IDEA](https://www.jetbrains.com/idea/) with [IDEA Integration Plugin](https://community.dynatrace.com/community/pages/viewpage.action?pageId=68649064)
-- [Visual Studio 2010, 2012, 2013]() with [Visual Studio 2010, 2012 and 2013 IDE Plugins](https://community.dynatrace.com/community/pages/viewpage.action?pageId=47186029)
+- [Visual Studio 2010, 2012, 2013](https://www.visualstudio.com/) with [Visual Studio 2010, 2012 and 2013 IDE Plugins](https://community.dynatrace.com/community/pages/viewpage.action?pageId=47186029)
 
 ## Usage
 
@@ -28,8 +28,8 @@ Manual installation is currently required, maven repository might be available i
 The wrapper comes with Apache's HttpComponents shaded inside, thus you don't have to worry about library dependencies.
 
 #### Maven
-- Download the latest artifact from [Releases](/releases)
-- Put the artifact under */repo/com/dynatrace/codelink*
+- Download the latest artifact from [Releases](https://github.com/Dynatrace/Dynatrace-CodeLink-Java/releases)
+- Put the artifact and *pom.xml* under */repo/com/dynatrace/codelink/codelink-wrapper/0.0.1*
 - Add the following code to the *&lt;repositories&gt;* section:
 
 ```xml
