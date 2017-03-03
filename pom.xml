@@ -6,7 +6,7 @@
     <description>A wrapper providing an integration with Dynatrace Client CodeLink feature.</description>
     <groupId>com.dynatrace.codelink</groupId>
     <artifactId>codelink-wrapper</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
     <packaging>jar</packaging>
 
     <properties>

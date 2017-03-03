@@ -40,7 +40,7 @@ class PollingWorker implements Runnable {
     private final CodeLinkSettings clSettings;
     private final IDEDescriptor ide;
 
-    private boolean hasErrored = false;
+    private String prevErrorMessage = null;
     private int suppress = 0;
     private long sessionId = -1;
 
@@ -81,32 +81,43 @@ class PollingWorker implements Runnable {
                     try {
                         PollingWorker.this.endpoint.respond(success ? CodeLinkEndpoint.ResponseStatus.FOUND : CodeLinkEndpoint.ResponseStatus.NOT_FOUND, sid);
                     } catch (CodeLinkConnectionException e) {
-                        PollingWorker.this.ide.log(Level.WARNING, "CodeLink Error", "Could not send response", "Error occured while sending a response to Dynatrace Client", false);
-                        CodeLinkClient.LOGGER.warning("Could not send response to CodeLink: " + e.getMessage());
+                    	String errorMessage = "Could not send response to CodeLink: " + e.getMessage();
+                    	if (prevErrorMessage != errorMessage) {
+	                        PollingWorker.this.prevErrorMessage = errorMessage;
+                    		PollingWorker.this.ide.log(Level.WARNING, "CodeLink Error", "Could not send response", errorMessage, false);
+	                        CodeLinkClient.LOGGER.warning(errorMessage);
+                    	}
                     }
                 }
             });
 
-            this.hasErrored = false;
+            this.prevErrorMessage = null;
         } catch (CodeLinkConnectionException e) {
-            CodeLinkClient.LOGGER.warning("Error occured in codelink worker during connection phase" + e.getMessage());
-            //if the host can't be found disable codelink to not disturb user with future notifications
+            // if the host can't be found disable codelink to not disturb user with future notifications
             if (e.getCause() instanceof UnknownHostException) {
                 this.clSettings.setEnabled(false);
-                this.ide.log(Level.WARNING, "CodeLink Error", "Could not connect to client.", "CodeLink has been disabled.\nCheck your configuration", true);
+                String errorMessage = "Dynatrace client host not found. Please verify your configuration"
+                		+ " under Eclipse preferences\\Dynatrace AppMon\\CodeLink\\Client host\nCodeLink has been disabled.";
+                if (prevErrorMessage != errorMessage) {
+                	this.prevErrorMessage = errorMessage;
+	                this.ide.log(Level.WARNING, "CodeLink Error", "Check your configuration", errorMessage, true);
+                }
             } else {
-                this.ide.log(Level.WARNING, "CodeLink Error", "Check your configuration", "Failed connecting to Dynatrace AppMon Client to poll for CodeLink jump requests.", false);
+            	String errorMessage = "Failed connecting to Dynatrace AppMon Client to poll for CodeLink jump requests.";
+            	if (prevErrorMessage != errorMessage) {
+            		this.prevErrorMessage = errorMessage;
+            		this.ide.log(Level.WARNING, "CodeLink Error", "Check your configuration", errorMessage, false);
+            	}
                 this.suppress = 5;
             }
         } catch (Exception e) {
-            e.printStackTrace();
-            CodeLinkClient.LOGGER.warning("Error occured in codelink worker " + e.getMessage());
-            if (!this.hasErrored) {
-                this.ide.log(Level.WARNING, "CodeLink Error", "Could not connect to client.", "Check your configuration", true);
+            String errorMessage = "Error occured in codelink worker " + e.getMessage();
+            if (this.prevErrorMessage != errorMessage) {
+            	this.prevErrorMessage = errorMessage;
+            	CodeLinkClient.LOGGER.warning(errorMessage);
+                this.ide.log(Level.WARNING, "CodeLink Error", "Check your configuration", errorMessage, true);
             }
-            this.hasErrored = true;
-            //skip 5 connections
-            this.suppress = 5;
+            this.suppress = 5; // skip 5 connections
         }
     }
 }
